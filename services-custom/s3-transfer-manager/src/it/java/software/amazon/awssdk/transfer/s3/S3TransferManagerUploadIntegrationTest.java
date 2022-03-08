@@ -16,7 +16,7 @@
 package software.amazon.awssdk.transfer.s3;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static software.amazon.awssdk.testutils.service.S3BucketUtils.temporaryBucketName;
+//import static software.amazon.awssdk.testutils.service.S3BucketUtils.temporaryBucketName;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -51,6 +51,7 @@ public class S3TransferManagerUploadIntegrationTest extends S3IntegrationTestBas
         tm = S3TransferManager.builder()
                               .s3ClientConfiguration(b -> b.credentialsProvider(CREDENTIALS_PROVIDER_CHAIN)
                                                            .region(DEFAULT_REGION)
+                                                           .endpointOverride(S3IntegrationTestBase.DEFAULT_ENDPOINT)
                                                            .maxConcurrency(100))
                               .build();
 

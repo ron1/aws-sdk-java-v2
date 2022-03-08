@@ -38,13 +38,25 @@ import software.amazon.awssdk.services.s3.model.S3Exception;
 import software.amazon.awssdk.services.s3.model.S3Object;
 import software.amazon.awssdk.testutils.service.AwsTestBase;
 
+import java.net.URI;
+
 /**
  * Base class for S3 integration tests. Loads AWS credentials from a properties
  * file and creates an S3 client for callers to use.
  */
 public class S3IntegrationTestBase extends AwsTestBase {
 
-    protected static final Region DEFAULT_REGION = Region.US_WEST_1;
+    public static String temporaryBucketName(Class<?> clz) {
+        return temporaryBucketName(clz.getSimpleName().toLowerCase());
+    }
+
+    public static String temporaryBucketName(String string) {
+        return "rlgavli-test" + "-" + string;
+    }
+
+    protected static final Region DEFAULT_REGION = Region.US_EAST_1;
+
+    protected static final URI DEFAULT_ENDPOINT = URI.create("http://localhost:9000");
     /**
      * The S3 client for all tests to use.
      */
@@ -72,12 +84,14 @@ public class S3IntegrationTestBase extends AwsTestBase {
     protected static S3ClientBuilder s3ClientBuilder() {
         return S3Client.builder()
                        .region(DEFAULT_REGION)
+                       .endpointOverride(DEFAULT_ENDPOINT)
                        .credentialsProvider(CREDENTIALS_PROVIDER_CHAIN);
     }
 
     protected static S3AsyncClientBuilder s3AsyncClientBuilder() {
         return S3AsyncClient.builder()
                             .region(DEFAULT_REGION)
+                            .endpointOverride(DEFAULT_ENDPOINT)
                             .credentialsProvider(CREDENTIALS_PROVIDER_CHAIN);
     }
 
@@ -90,10 +104,10 @@ public class S3IntegrationTestBase extends AwsTestBase {
             s3.createBucket(
                 CreateBucketRequest.builder()
                                    .bucket(bucketName)
-                                   .createBucketConfiguration(
-                                       CreateBucketConfiguration.builder()
-                                                                .locationConstraint(BucketLocationConstraint.US_WEST_1)
-                                                                .build())
+//                                   .createBucketConfiguration(
+//                                       CreateBucketConfiguration.builder()
+//                                                                .locationConstraint(BucketLocationConstraint.US_GOV_EAST_1)
+//                                                                .build())
                                    .build());
         } catch (S3Exception e) {
             System.err.println("Error attempting to create bucket: " + bucketName);
@@ -133,17 +147,17 @@ public class S3IntegrationTestBase extends AwsTestBase {
             }
         }
 
-        ListObjectVersionsResponse versionsResponse = s3
-            .listObjectVersions(ListObjectVersionsRequest.builder().bucket(bucketName).build());
-        if (versionsResponse.versions() != null) {
-            for (ObjectVersion s : versionsResponse.versions()) {
-                s3.deleteObject(DeleteObjectRequest.builder()
-                                                   .bucket(bucketName)
-                                                   .key(s.key())
-                                                   .versionId(s.versionId())
-                                                   .build());
-            }
-        }
+//        ListObjectVersionsResponse versionsResponse = s3
+//            .listObjectVersions(ListObjectVersionsRequest.builder().bucket(bucketName).build());
+//        if (versionsResponse.versions() != null) {
+//            for (ObjectVersion s : versionsResponse.versions()) {
+//                s3.deleteObject(DeleteObjectRequest.builder()
+//                                                   .bucket(bucketName)
+//                                                   .key(s.key())
+//                                                   .versionId(s.versionId())
+//                                                   .build());
+//            }
+//        }
 
         s3.deleteBucket(DeleteBucketRequest.builder().bucket(bucketName).build());
     }

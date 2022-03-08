@@ -15,7 +15,7 @@
 
 package software.amazon.awssdk.transfer.s3;
 
-import static software.amazon.awssdk.testutils.service.S3BucketUtils.temporaryBucketName;
+//import static software.amazon.awssdk.testutils.service.S3BucketUtils.temporaryBucketName;
 
 import io.reactivex.Flowable;
 import java.io.IOException;
@@ -57,6 +57,7 @@ public class S3CrtClientPutObjectIntegrationTest extends S3IntegrationTestBase {
 
         s3Crt = S3CrtAsyncClient.builder()
                                 .credentialsProvider(CREDENTIALS_PROVIDER_CHAIN)
+                                .endpointOverride(S3IntegrationTestBase.DEFAULT_ENDPOINT)
                                 .region(S3IntegrationTestBase.DEFAULT_REGION)
                                 .build();
     }

@@ -16,7 +16,7 @@
 package software.amazon.awssdk.transfer.s3;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static software.amazon.awssdk.testutils.service.S3BucketUtils.temporaryBucketName;
+//import static software.amazon.awssdk.testutils.service.S3BucketUtils.temporaryBucketName;
 
 import java.io.File;
 import java.io.IOException;
@@ -51,6 +51,7 @@ public class S3CrtGetObjectIntegrationTest extends S3IntegrationTestBase {
         S3IntegrationTestBase.createBucket(BUCKET);
         crtClient = S3CrtAsyncClient.builder()
                                     .region(S3IntegrationTestBase.DEFAULT_REGION)
+                                    .endpointOverride(S3IntegrationTestBase.DEFAULT_ENDPOINT)
                                     .credentialsProvider(AwsTestBase.CREDENTIALS_PROVIDER_CHAIN)
                                     .build();
         file = new RandomTempFile(10_000);

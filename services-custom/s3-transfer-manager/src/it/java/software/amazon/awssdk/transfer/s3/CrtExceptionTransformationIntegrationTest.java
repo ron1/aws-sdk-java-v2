@@ -16,7 +16,7 @@
 package software.amazon.awssdk.transfer.s3;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static software.amazon.awssdk.testutils.service.S3BucketUtils.temporaryBucketName;
+//import static software.amazon.awssdk.testutils.service.S3BucketUtils.temporaryBucketName;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -49,11 +49,13 @@ public class CrtExceptionTransformationIntegrationTest extends S3IntegrationTest
         s3Crt = S3CrtAsyncClient.builder()
                                 .credentialsProvider(CREDENTIALS_PROVIDER_CHAIN)
                                 .region(S3IntegrationTestBase.DEFAULT_REGION)
+                                .endpointOverride(S3IntegrationTestBase.DEFAULT_ENDPOINT)
                                 .build();
         transferManager =
             S3TransferManager.builder()
                              .s3ClientConfiguration(b -> b.credentialsProvider(CREDENTIALS_PROVIDER_CHAIN)
-                                                          .region(S3IntegrationTestBase.DEFAULT_REGION))
+                                                          .region(S3IntegrationTestBase.DEFAULT_REGION)
+                                                          .endpointOverride(S3IntegrationTestBase.DEFAULT_ENDPOINT))
                              .build();
     }
 

@@ -16,7 +16,7 @@
 package software.amazon.awssdk.transfer.s3;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static software.amazon.awssdk.testutils.service.S3BucketUtils.temporaryBucketName;
+//import static software.amazon.awssdk.testutils.service.S3BucketUtils.temporaryBucketName;
 
 import java.io.File;
 import java.io.IOException;
@@ -52,6 +52,7 @@ public class S3TransferManagerDownloadIntegrationTest extends S3IntegrationTestB
                                      .build(), file.toPath());
         tm = S3TransferManager.builder()
                               .s3ClientConfiguration(b -> b.region(DEFAULT_REGION)
+                                                           .endpointOverride(S3IntegrationTestBase.DEFAULT_ENDPOINT)
                                                            .credentialsProvider(CREDENTIALS_PROVIDER_CHAIN))
                               .build();
     }

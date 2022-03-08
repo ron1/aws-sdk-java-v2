@@ -17,7 +17,7 @@ package software.amazon.awssdk.transfer.s3;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static software.amazon.awssdk.testutils.FileUtils.toFileTreeString;
-import static software.amazon.awssdk.testutils.service.S3BucketUtils.temporaryBucketName;
+//import static software.amazon.awssdk.testutils.service.S3BucketUtils.temporaryBucketName;
 import static software.amazon.awssdk.utils.IoUtils.closeQuietly;
 
 import java.io.IOException;
@@ -41,7 +41,7 @@ import software.amazon.awssdk.utils.Logger;
 public class S3TransferManagerDownloadDirectoryIntegrationTest extends S3IntegrationTestBase {
     private static final Logger log = Logger.loggerFor(S3TransferManagerDownloadDirectoryIntegrationTest.class);
     private static final String TEST_BUCKET = temporaryBucketName(S3TransferManagerUploadIntegrationTest.class);
-    private static final String TEST_BUCKET_CUSTOM_DELIMITER = temporaryBucketName("S3TransferManagerUploadIntegrationTest"
+    private static final String TEST_BUCKET_CUSTOM_DELIMITER = temporaryBucketName("s3transfermanageruploadintegrationtest"
                                                                                    + "-delimiter");
     private static final String CUSTOM_DELIMITER = "-";
 
@@ -59,6 +59,7 @@ public class S3TransferManagerDownloadDirectoryIntegrationTest extends S3Integra
         tm = S3TransferManager.builder()
                               .s3ClientConfiguration(b -> b.credentialsProvider(CREDENTIALS_PROVIDER_CHAIN)
                                                            .region(DEFAULT_REGION)
+                                                           .endpointOverride(S3IntegrationTestBase.DEFAULT_ENDPOINT)
                                                            .maxConcurrency(100))
                               .build();
 
